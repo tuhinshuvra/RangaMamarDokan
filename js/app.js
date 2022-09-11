@@ -18,7 +18,7 @@ const showProducts = (products) => {
 
    document.getElementById("all-products").innerHTML = "";
 
-   const allProducts = products.slice(0, 10).map((pd) => pd);
+   const allProducts = products.map((pd) => pd);
    for (const product of allProducts) {
       // console.log(product);
       const image = product.image;
@@ -61,7 +61,7 @@ const showProductDetails = (product_id) => {
 const showProductDetailsInModal = (product_details) => {
    console.log(product_details);
    setInnerText('exampleModalLabel', product_details.title);
-   setInnerText('product_id', product_details.id);
+   setInnerText('productId', product_details.id);
    setInnerText('modal_body', product_details.description);
    setInnerText('rating', product_details.rating.rate);
 };
@@ -83,7 +83,11 @@ const updatePrice = (id, value) => {
 
 // set innerText function
 const setInnerText = (id, value) => {
-   document.getElementById(id).innerText = value.toFixed(2);
+   if (typeof value === 'number') {
+      value = Math.round(value);
+   }
+   document.getElementById(id).innerText = value;
+
 };
 
 // update delivery charge and total Tax
@@ -112,7 +116,6 @@ const updateTotal = () => {
       getInputValue('price') +
       getInputValue('delivery-charge') +
       getInputValue('total-tax');
-   console.log(grandTotal);
    document.getElementById('total').innerText = grandTotal;
 };
 
@@ -124,5 +127,3 @@ document.getElementById("search-btn").addEventListener("click", function () {
    );
    showProducts(searchedProduct);
 });
-
-
